@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
@@ -73,6 +75,26 @@ class User extends Authenticatable
     public function colleges(): BelongsToMany
     {
         return $this->belongsToMany(College::class, 'college_counselor')->withTimestamps();
+    }
+
+    /**
+     * Form 5 records filled out by this student (one per school year + semester).
+     *
+     * @return HasMany<CumulativeRecord, $this>
+     */
+    public function cumulativeRecords(): HasMany
+    {
+        return $this->hasMany(CumulativeRecord::class);
+    }
+
+    /**
+     * The student's most recent Form 5 record.
+     *
+     * @return HasOne<CumulativeRecord, $this>
+     */
+    public function latestCumulativeRecord(): HasOne
+    {
+        return $this->hasOne(CumulativeRecord::class)->latestOfMany();
     }
 
     public function isStudent(): bool

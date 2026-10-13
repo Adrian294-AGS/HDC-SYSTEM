@@ -18,6 +18,11 @@
                     <x-nav-link :href="route($user->dashboardRoute())" :active="request()->routeIs($user->dashboardRoute())">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if ($user->isStudent())
+                        <x-nav-link :href="route('student.record.index')" :active="request()->routeIs('student.record.*')">
+                            {{ __('My Record') }}
+                        </x-nav-link>
+                    @endif
                     <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
                         {{ __('Profile') }}
                     </x-nav-link>
@@ -55,6 +60,11 @@
             <x-responsive-nav-link :href="route($user->dashboardRoute())" :active="request()->routeIs($user->dashboardRoute())">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if ($user->isStudent())
+                <x-responsive-nav-link :href="route('student.record.index')" :active="request()->routeIs('student.record.*')">
+                    {{ __('My Record') }}
+                </x-responsive-nav-link>
+            @endif
             <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
                 {{ __('Profile') }}
             </x-responsive-nav-link>
