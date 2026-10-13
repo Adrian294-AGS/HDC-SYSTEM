@@ -1,0 +1,84 @@
+@php
+    use App\Enums\RecordStatus;
+    use App\Support\Form5;
+
+    $student = $record->student;
+@endphp
+
+<x-app-layout>
+    <x-slot name="header">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+                <a href="{{ route('staff.records.index') }}" class="text-sm text-gray-600 dark:text-gray-400 underline hover:text-gray-900 dark:hover:text-gray-100">&larr; {{ __('All records') }}</a>
+                <h2 class="mt-1 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">{{ $record->fullName() ?: $student->name }}</h2>
+            </div>
+            <x-record-status :status="$record->status" />
+        </div>
+    </x-slot>
+
+    <div class="py-8">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+            @if (session('status'))
+                <div class="rounded-md bg-green-50 dark:bg-green-500/10 px-4 py-3 text-sm text-green-800 dark:text-green-300" role="status">{{ session('status') }}</div>
+            @endif
+
+            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6">
+                <div class="flex flex-col gap-6 sm:flex-row sm:items-start">
+                    <div class="shrink-0">
+                        @if ($record->photo_path)
+                            <img src="{{ route('staff.records.photo', $record) }}" alt="{{ __('2x2 photo of :name', ['name' => $student->name]) }}" class="h-32 w-32 rounded border border-gray-200 dark:border-gray-700 object-cover">
+                        @else
+                            <div class="flex h-32 w-32 items-center justify-center rounded border border-dashed border-gray-300 dark:border-gray-600 text-xs text-gray-500 dark:text-gray-400">{{ __('No photo') }}</div>
+                        @endif
+                    </div>
+
+                    <dl class="grid flex-1 gap-x-6 gap-y-3 text-sm sm:grid-cols-2">
+                        <div>
+                            <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ __('Student no.') }}</dt>
+                            <dd class="text-gray-900 dark:text-gray-100">{{ $student->student_number }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ __('Program / College') }}</dt>
+                            <dd class="text-gray-900 dark:text-gray-100">{{ $student->program?->code }} – {{ $student->program?->college?->name }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ __('Term') }}</dt>
+                            <dd class="text-gray-900 dark:text-gray-100">{{ Form5::SEMESTERS[$record->semester] ?? '' }}, {{ __('S.Y.') }} {{ $record->school_year }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ __('Submitted') }}</dt>
+                            <dd class="text-gray-900 dark:text-gray-100">{{ $record->submitted_at?->format('F j, Y g:i A') ?? __('Not yet') }}</dd>
+                        </div>
+                        @if ($record->consent_given)
+                            <div class="sm:col-span-2">
+                                <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ __('Data privacy consent') }}</dt>
+                                <dd class="text-gray-900 dark:text-gray-100">{{ __('Given by ":name" on :date', ['name' => $record->consent_name, 'date' => $record->consented_at->format('F j, Y')]) }}</dd>
+                            </div>
+                        @endif
+                        @if ($record->status === RecordStatus::Reviewed)
+                            <div class="sm:col-span-2">
+                                <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ __('Reviewed') }}</dt>
+                                <dd class="text-gray-900 dark:text-gray-100">{{ __('By :name on :date', ['name' => $record->reviewer?->name ?? __('(removed user)'), 'date' => $record->reviewed_at?->format('F j, Y g:i A')]) }}</dd>
+                            </div>
+                        @endif
+                    </dl>
+                </div>
+
+                @can('review', $record)
+                    <form method="POST" action="{{ route('staff.records.review', $record) }}" class="mt-6 flex flex-wrap items-center gap-3 border-t border-gray-100 dark:border-gray-700 pt-4"
+                        x-data x-on:submit="if (! confirm(@js(__('Mark this record as reviewed? The student will no longer be able to edit it.')))) $event.preventDefault()">
+                        @csrf
+                        <x-primary-button>{{ __('Mark as reviewed') }}</x-primary-button>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('After this, the student can no longer edit the record.') }}</p>
+                    </form>
+                @elseif ($record->status === RecordStatus::Draft)
+                    <p class="mt-6 border-t border-gray-100 dark:border-gray-700 pt-4 text-sm text-gray-600 dark:text-gray-400">{{ __('This record is still a draft. It can be reviewed after the student submits it.') }}</p>
+                @endif
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6">
+                @include('student.record.summary', ['editable' => false])
+            </div>
+        </div>
+    </div>
+</x-app-layout>

@@ -147,6 +147,25 @@ class User extends Authenticatable
     }
 
     /**
+     * Staff who should hear about a student in the given college: every director,
+     * plus counselors assigned to that college.
+     *
+     * @param  Builder<User>  $query
+     */
+    public function scopeStaffResponsibleFor(Builder $query, ?int $collegeId): void
+    {
+        $query->where(function (Builder $query) use ($collegeId): void {
+            $query->where('role', Role::Director);
+
+            if ($collegeId !== null) {
+                $query->orWhere(fn (Builder $counselors) => $counselors
+                    ->where('role', Role::Counselor)
+                    ->whereHas('colleges', fn (Builder $colleges) => $colleges->where('colleges.id', $collegeId)));
+            }
+        });
+    }
+
+    /**
      * Limit a query to students whose program belongs to a college the viewer may access.
      * Use this on every staff-facing student query.
      *
@@ -154,7 +173,7 @@ class User extends Authenticatable
      */
     public function scopeStudentsVisibleTo(Builder $query, User $viewer): void
     {
-        $query->where('role', Role::Student)
+        $query->where('users.role', Role::Student)
             ->whereHas('program', fn (Builder $program) => $program->whereIn('college_id', $viewer->accessibleCollegeIds()));
     }
 }

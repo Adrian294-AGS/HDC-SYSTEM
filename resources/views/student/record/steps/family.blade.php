@@ -1,14 +1,14 @@
 @php use App\Support\Form5; @endphp
 
-<p class="text-sm text-gray-600">{{ __('Family background & socio-economic data') }}</p>
+<p class="text-sm text-gray-600 dark:text-gray-400">{{ __('Family background & socio-economic data') }}</p>
 
 <div class="grid gap-6 lg:grid-cols-2">
     @foreach (Form5::PARENT_RELATIONS as $relation => $relationLabel)
         @php
             $parent = $record->parent($relation);
         @endphp
-        <fieldset class="space-y-4 rounded-md border border-gray-200 p-4">
-            <legend class="px-1 text-sm font-semibold text-gray-800">{{ $relationLabel }}</legend>
+        <fieldset class="space-y-4 rounded-md border border-gray-200 dark:border-gray-700 p-4">
+            <legend class="px-1 text-sm font-semibold text-gray-800 dark:text-gray-200">{{ $relationLabel }}</legend>
             <x-form.text :name="'parents.'.$relation.'.name'" label="Name" :value="$parent?->name" />
             <div class="grid gap-4 sm:grid-cols-2">
                 <x-form.text :name="'parents.'.$relation.'.age'" label="Age" type="number" min="10" max="120" :value="$parent?->age" />

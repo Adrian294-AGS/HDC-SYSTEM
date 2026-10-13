@@ -10,7 +10,7 @@
         x-show="skills.includes('others')" x-cloak />
 </div>
 
-<div class="space-y-4 border-t border-gray-100 pt-6">
+<div class="space-y-4 border-t border-gray-100 dark:border-gray-700 pt-6">
     <x-form.yes-no name="willing_to_see_counselor"
         label="Would you be willing to talk with or seek help from a counselor any time regarding your concerns?"
         :value="$record->willing_to_see_counselor" />

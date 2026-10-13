@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\RecordStatus;
 use App\Models\CumulativeRecord;
 use App\Models\User;
 
@@ -43,5 +44,15 @@ class CumulativeRecordPolicy
     public function submit(User $user, CumulativeRecord $record): bool
     {
         return $this->update($user, $record);
+    }
+
+    /**
+     * Staff who may see the record can mark it reviewed, once it is submitted.
+     */
+    public function review(User $user, CumulativeRecord $record): bool
+    {
+        return ! $user->isStudent()
+            && $record->status === RecordStatus::Submitted
+            && $this->view($user, $record);
     }
 }

@@ -11,7 +11,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-2">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('HDC Form 5: Student Cumulative Record') }}
             </h2>
             <x-record-status :status="$record->status" />
@@ -33,8 +33,8 @@
                                 <a href="{{ route('student.record.edit', [$record, $key]) }}"
                                     @class([
                                         'flex items-center gap-2 rounded-md px-3 py-2 text-sm',
-                                        'bg-indigo-50 font-semibold text-indigo-700' => $isCurrent,
-                                        'text-gray-700 hover:bg-gray-50' => ! $isCurrent,
+                                        'bg-indigo-50 dark:bg-indigo-500/10 font-semibold text-indigo-700 dark:text-indigo-300' => $isCurrent,
+                                        'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/60' => ! $isCurrent,
                                     ])
                                     @if ($isCurrent) aria-current="step" @endif>
                                     <x-step-marker :number="$loop->iteration" :done="$isDone" :current="$isCurrent" />
@@ -43,8 +43,8 @@
                             @else
                                 <span @class([
                                     'flex items-center gap-2 rounded-md px-3 py-2 text-sm',
-                                    'bg-indigo-50 font-semibold text-indigo-700' => $isCurrent,
-                                    'text-gray-400' => ! $isCurrent,
+                                    'bg-indigo-50 dark:bg-indigo-500/10 font-semibold text-indigo-700 dark:text-indigo-300' => $isCurrent,
+                                    'text-gray-400 dark:text-gray-500' => ! $isCurrent,
                                 ])>
                                     <x-step-marker :number="$loop->iteration" :done="false" :current="$isCurrent" />
                                     {{ $title }}
@@ -58,7 +58,7 @@
             <div class="min-w-0 space-y-4">
                 {{-- Progress --}}
                 <div>
-                    <div class="flex items-center justify-between text-sm text-gray-600">
+                    <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
                         <span>{{ __('Step :n of :total', ['n' => $stepNumber, 'total' => count($steps)]) }}</span>
                         <span>{{ $record->progressPercent() }}% {{ __('complete') }}</span>
                     </div>
@@ -66,20 +66,20 @@
                 </div>
 
                 @if (session('status'))
-                    <div class="rounded-md bg-green-50 px-4 py-3 text-sm text-green-800" role="status">{{ session('status') }}</div>
+                    <div class="rounded-md bg-green-50 dark:bg-green-500/10 px-4 py-3 text-sm text-green-800 dark:text-green-300" role="status">{{ session('status') }}</div>
                 @endif
 
                 @if ($record->status === \App\Enums\RecordStatus::Submitted)
-                    <div class="rounded-md bg-blue-50 px-4 py-3 text-sm text-blue-800">
+                    <div class="rounded-md bg-blue-50 dark:bg-blue-500/10 px-4 py-3 text-sm text-blue-800 dark:text-blue-300">
                         {{ __('This record is already submitted. You can still update it until the HDC office reviews it.') }}
                     </div>
                 @endif
 
-                <div class="bg-white shadow-sm sm:rounded-lg p-4 sm:p-6">
-                    <h3 class="text-lg font-semibold text-gray-900">{{ $steps[$step] }}</h3>
+                <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $steps[$step] }}</h3>
 
                     @if ($step === 'entry')
-                        <p class="mt-2 text-sm text-gray-600">{{ Form5::FORM_INTRO }}</p>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ Form5::FORM_INTRO }}</p>
                     @endif
 
                     @if ($step === 'review')
@@ -96,13 +96,13 @@
                                 @include('student.record.steps.'.$step)
                             </div>
 
-                            <div class="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-6">
+                            <div class="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 dark:border-gray-700 pt-6">
                                 @if ($previous && $exists)
-                                    <a href="{{ route('student.record.edit', [$record, $previous]) }}" class="text-sm text-gray-600 underline hover:text-gray-900">
+                                    <a href="{{ route('student.record.edit', [$record, $previous]) }}" class="text-sm text-gray-600 dark:text-gray-400 underline hover:text-gray-900 dark:hover:text-gray-100">
                                         &larr; {{ __('Back') }}
                                     </a>
                                 @else
-                                    <a href="{{ route('student.dashboard') }}" class="text-sm text-gray-600 underline hover:text-gray-900">
+                                    <a href="{{ route('student.dashboard') }}" class="text-sm text-gray-600 dark:text-gray-400 underline hover:text-gray-900 dark:hover:text-gray-100">
                                         {{ __('Back to dashboard') }}
                                     </a>
                                 @endif

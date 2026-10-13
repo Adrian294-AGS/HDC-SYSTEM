@@ -35,7 +35,7 @@
         <x-form.text name="place_of_birth" label="Place of birth" :value="$record->place_of_birth" required />
     </div>
     @if ($record->age() !== null)
-        <p class="-mt-4 text-sm text-gray-600">{{ __('Age: :age', ['age' => $record->age()]) }}</p>
+        <p class="-mt-4 text-sm text-gray-600 dark:text-gray-400">{{ __('Age: :age', ['age' => $record->age()]) }}</p>
     @endif
 
     <div class="grid gap-6 sm:grid-cols-2">
@@ -43,7 +43,7 @@
         <x-form.radios name="civil_status" label="Civil status" :options="Form5::CIVIL_STATUSES" :value="$record->civil_status" required model="civilStatus" />
     </div>
 
-    <div x-show="civilStatus === 'married'" x-cloak class="grid gap-6 sm:grid-cols-2 rounded-md bg-gray-50 p-4">
+    <div x-show="civilStatus === 'married'" x-cloak class="grid gap-6 sm:grid-cols-2 rounded-md bg-gray-50 dark:bg-gray-900/40 p-4">
         <x-form.text name="spouse_name" label="Spouse name" :value="$record->spouse_name" required />
         <x-form.text name="number_of_children" label="No. of children" type="number" min="0" max="30" :value="$record->number_of_children" />
     </div>
@@ -61,8 +61,8 @@
 
     <x-form.text name="boarding_address" label="Boarding house address" :value="$record->boarding_address" />
 
-    <fieldset class="space-y-4 rounded-md border border-gray-200 p-4">
-        <legend class="px-1 text-sm font-semibold text-gray-800">{{ __('In case of emergency') }}</legend>
+    <fieldset class="space-y-4 rounded-md border border-gray-200 dark:border-gray-700 p-4">
+        <legend class="px-1 text-sm font-semibold text-gray-800 dark:text-gray-200">{{ __('In case of emergency') }}</legend>
         <div class="grid gap-6 sm:grid-cols-2">
             <x-form.text name="emergency_contact_name" label="Emergency contact name" :value="$record->emergency_contact_name" required />
             <x-form.text name="emergency_contact_number" label="Emergency contact no." :value="$record->emergency_contact_number" required />

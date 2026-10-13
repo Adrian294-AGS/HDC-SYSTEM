@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Staff\DashboardController;
+use App\Http\Controllers\Staff\NotificationController;
+use App\Http\Controllers\Staff\RecordController;
+use App\Http\Controllers\Staff\TrackerController;
 use App\Http\Controllers\Student\CumulativeRecordController;
 use App\Support\Form5;
 use Illuminate\Http\Request;
@@ -38,11 +42,27 @@ Route::middleware(['auth', 'verified', 'role:student'])->prefix('student')->name
 });
 
 Route::middleware(['auth', 'verified', 'role:counselor'])->prefix('counselor')->name('counselor.')->group(function () {
-    Route::view('/dashboard', 'counselor.dashboard')->name('dashboard');
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
 });
 
 Route::middleware(['auth', 'verified', 'role:director'])->prefix('director')->name('director.')->group(function () {
-    Route::view('/dashboard', 'director.dashboard')->name('dashboard');
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+});
+
+/*
+ * Staff side (counselors: assigned colleges only; director: all colleges).
+ */
+Route::middleware(['auth', 'verified', 'role:counselor,director'])->prefix('staff')->name('staff.')->group(function () {
+    Route::get('/records', [RecordController::class, 'index'])->name('records.index');
+    Route::get('/records/{record}', [RecordController::class, 'show'])->name('records.show');
+    Route::get('/records/{record}/photo', [RecordController::class, 'photo'])->name('records.photo');
+    Route::post('/records/{record}/review', [RecordController::class, 'review'])->name('records.review');
+
+    Route::get('/tracker', TrackerController::class)->name('tracker');
+
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllRead'])->name('notifications.read-all');
+    Route::get('/notifications/{notification}', [NotificationController::class, 'open'])->name('notifications.open');
 });
 
 Route::middleware('auth')->group(function () {

@@ -23,9 +23,9 @@ enum RecordStatus: string
     public function badgeClasses(): string
     {
         return match ($this) {
-            self::Draft => 'bg-amber-50 text-amber-800 ring-amber-600/20',
-            self::Submitted => 'bg-blue-50 text-blue-700 ring-blue-700/10',
-            self::Reviewed => 'bg-green-50 text-green-700 ring-green-600/20',
+            self::Draft => 'bg-amber-50 text-amber-800 ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-300 dark:ring-amber-400/30',
+            self::Submitted => 'bg-blue-50 text-blue-700 ring-blue-700/10 dark:bg-blue-400/10 dark:text-blue-300 dark:ring-blue-400/30',
+            self::Reviewed => 'bg-green-50 text-green-700 ring-green-600/20 dark:bg-green-400/10 dark:text-green-300 dark:ring-green-400/30',
         };
     }
 

@@ -93,16 +93,16 @@
             'Why?' => $record->counselor_willingness_reason,
         ],
     ] as $step => $fields)
-        <section class="rounded-md border border-gray-200">
-            <header class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-4 py-2">
-                <h4 class="text-sm font-semibold text-gray-900">
+        <section class="rounded-md border border-gray-200 dark:border-gray-700">
+            <header class="flex items-center justify-between gap-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 px-4 py-2">
+                <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
                     {{ Form5::STEPS[$step] }}
                     @if (! $record->hasCompletedStep($step))
-                        <span class="ms-2 rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800">{{ __('Not completed') }}</span>
+                        <span class="ms-2 rounded bg-amber-100 dark:bg-amber-400/10 px-1.5 py-0.5 text-xs font-medium text-amber-800 dark:text-amber-300">{{ __('Not completed') }}</span>
                     @endif
                 </h4>
                 @if ($editable)
-                    <a href="{{ route('student.record.edit', [$record, $step]) }}" class="text-sm text-indigo-600 hover:text-indigo-800">{{ __('Edit') }}</a>
+                    <a href="{{ route('student.record.edit', [$record, $step]) }}" class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300">{{ __('Edit') }}</a>
                 @endif
             </header>
 
@@ -114,12 +114,12 @@
                                 $parent = $record->parent($relation);
                             @endphp
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-wide text-gray-500">{{ $relationLabel }}</p>
+                                <p class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ $relationLabel }}</p>
                                 @if ($parent && $parent->name)
-                                    <p class="mt-1 text-sm text-gray-900">{{ $parent->name }}@if ($parent->age), {{ $parent->age }}@endif</p>
-                                    <p class="text-sm text-gray-600">{{ collect([$parent->religion, $parent->occupation, $parent->monthly_income ? 'Income: '.$parent->monthly_income : null, $parent->educational_attainment])->filter()->implode(' · ') }}</p>
+                                    <p class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ $parent->name }}@if ($parent->age), {{ $parent->age }}@endif</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">{{ collect([$parent->religion, $parent->occupation, $parent->monthly_income ? 'Income: '.$parent->monthly_income : null, $parent->educational_attainment])->filter()->implode(' · ') }}</p>
                                 @else
-                                    <p class="mt-1 text-sm text-gray-400">—</p>
+                                    <p class="mt-1 text-sm text-gray-400 dark:text-gray-500">—</p>
                                 @endif
                             </div>
                         @endforeach
@@ -137,11 +137,11 @@
 
                 @if ($rows)
                     <div class="mb-4">
-                        <p class="text-xs font-semibold uppercase tracking-wide text-gray-500">{{ $rows[0] }}</p>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ $rows[0] }}</p>
                         @forelse ($rows[1] as $line)
-                            <p class="mt-1 text-sm text-gray-900">{{ $line }}</p>
+                            <p class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ $line }}</p>
                         @empty
-                            <p class="mt-1 text-sm text-gray-400">—</p>
+                            <p class="mt-1 text-sm text-gray-400 dark:text-gray-500">—</p>
                         @endforelse
                     </div>
                 @endif
@@ -150,8 +150,8 @@
                     @foreach ($fields as $label => $value)
                         @continue(blank($value) && in_array($label, ['Spouse name', 'No. of children', 'Reason for hospitalization', 'Surgery details', 'Allergy details', 'If interrupted, why?', 'Others (specify)', 'When', 'Specific work experience', 'What you like about it'], true))
                         <div @class(['sm:col-span-2' => strlen((string) $value) > 80 || strlen($label) > 40])>
-                            <dt class="text-xs font-medium text-gray-500">{{ $label }}</dt>
-                            <dd class="mt-0.5 whitespace-pre-line text-sm text-gray-900">{{ filled($value) ? $value : '—' }}</dd>
+                            <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ $label }}</dt>
+                            <dd class="mt-0.5 whitespace-pre-line text-sm text-gray-900 dark:text-gray-100">{{ filled($value) ? $value : '—' }}</dd>
                         </div>
                     @endforeach
                 </dl>

@@ -20,7 +20,7 @@
 
     <div class="space-y-4">
         <x-form.yes-no name="has_work_experience" label="Work experience as a student?" :value="$record->has_work_experience" model="hasWork" />
-        <div x-show="hasWork === '1'" x-cloak class="space-y-4 rounded-md bg-gray-50 p-4">
+        <div x-show="hasWork === '1'" x-cloak class="space-y-4 rounded-md bg-gray-50 dark:bg-gray-900/40 p-4">
             <div class="grid gap-4 sm:grid-cols-2">
                 <x-form.text name="work_experience_when" label="When was this?" :value="$record->work_experience_when" required />
                 <x-form.text name="work_experience_details" label="Specific work experience" :value="$record->work_experience_details" required />

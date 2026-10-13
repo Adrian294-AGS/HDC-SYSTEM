@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="mb-6">
-        <h1 class="text-lg font-semibold text-gray-900">{{ __('Student Registration') }}</h1>
-        <p class="mt-1 text-sm text-gray-600">
+        <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ __('Student Registration') }}</h1>
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
             {{ __('Create your account to fill out your HDC Student Cumulative Record. Staff accounts are created by the HDC office.') }}
         </p>
     </div>
@@ -40,7 +40,7 @@
         <!-- Program (grouped by college) -->
         <div class="mt-4">
             <x-input-label for="program_id" :value="__('Program')" />
-            <select id="program_id" name="program_id" required class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+            <select id="program_id" name="program_id" required class="block mt-1 w-full border-gray-300 bg-white text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-indigo-400 dark:focus:ring-indigo-400">
                 <option value="" disabled @selected(! old('program_id'))>{{ __('Select your program') }}</option>
                 @foreach ($colleges as $college)
                     <optgroup label="{{ $college->code }} – {{ $college->name }}">
@@ -58,7 +58,7 @@
         <!-- Year Level -->
         <div class="mt-4">
             <x-input-label for="year_level" :value="__('Year Level')" />
-            <select id="year_level" name="year_level" required class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+            <select id="year_level" name="year_level" required class="block mt-1 w-full border-gray-300 bg-white text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-indigo-400 dark:focus:ring-indigo-400">
                 <option value="" disabled @selected(! old('year_level'))>{{ __('Select your year level') }}</option>
                 @foreach ([1 => '1st Year', 2 => '2nd Year', 3 => '3rd Year', 4 => '4th Year', 5 => '5th Year'] as $level => $label)
                     <option value="{{ $level }}" @selected((string) old('year_level') === (string) $level)>{{ $label }}</option>
@@ -98,7 +98,7 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-800 focus:ring-indigo-500" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
 

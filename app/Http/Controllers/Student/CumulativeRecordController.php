@@ -8,6 +8,8 @@ use App\Http\Requests\SaveRecordStepRequest;
 use App\Http\Requests\SubmitRecordRequest;
 use App\Models\College;
 use App\Models\CumulativeRecord;
+use App\Models\User;
+use App\Notifications\RecordSubmitted;
 use App\Support\Form5;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,6 +17,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -146,12 +149,23 @@ class CumulativeRecordController extends Controller
      */
     public function submit(SubmitRecordRequest $request, CumulativeRecord $record): RedirectResponse
     {
+        $isFirstSubmission = $record->status === RecordStatus::Draft;
+
         $record->consent_given = true;
         $record->consented_at = now();
         $record->consent_name = $request->validated('consent_name');
         $record->status = RecordStatus::Submitted;
         $record->submitted_at = now();
         $record->save();
+
+        if ($isFirstSubmission) {
+            $student = $request->user()->loadMissing('program');
+
+            Notification::send(
+                User::query()->staffResponsibleFor($student->program?->college_id)->get(),
+                new RecordSubmitted($record->setRelation('student', $student)),
+            );
+        }
 
         return redirect()
             ->route('student.record.show', $record)
