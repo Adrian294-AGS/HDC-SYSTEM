@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Director\CollegeController;
+use App\Http\Controllers\Director\CounselorController;
+use App\Http\Controllers\Director\ProgramController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Staff\DashboardController;
 use App\Http\Controllers\Staff\NotificationController;
@@ -47,6 +50,16 @@ Route::middleware(['auth', 'verified', 'role:counselor'])->prefix('counselor')->
 
 Route::middleware(['auth', 'verified', 'role:director'])->prefix('director')->name('director.')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
+    Route::resource('counselors', CounselorController::class)->except(['show', 'destroy']);
+    Route::patch('/counselors/{counselor}/deactivate', [CounselorController::class, 'deactivate'])->name('counselors.deactivate');
+    Route::patch('/counselors/{counselor}/reactivate', [CounselorController::class, 'reactivate'])->name('counselors.reactivate');
+
+    Route::resource('colleges', CollegeController::class)->except(['show']);
+    Route::post('/programs', [ProgramController::class, 'store'])->name('programs.store');
+    Route::get('/programs/{program}/edit', [ProgramController::class, 'edit'])->name('programs.edit');
+    Route::put('/programs/{program}', [ProgramController::class, 'update'])->name('programs.update');
+    Route::delete('/programs/{program}', [ProgramController::class, 'destroy'])->name('programs.destroy');
 });
 
 /*

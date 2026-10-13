@@ -51,6 +51,14 @@ class LoginRequest extends FormRequest
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        if (! Auth::user()->is_active) {
+            Auth::guard('web')->logout();
+
+            throw ValidationException::withMessages([
+                'email' => __('This account has been deactivated. Please contact the HDC Director.'),
+            ]);
+        }
     }
 
     /**

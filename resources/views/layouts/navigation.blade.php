@@ -18,7 +18,7 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-6 lg:-my-px lg:ms-8 lg:flex">
                     <x-nav-link :href="route($user->dashboardRoute())" :active="request()->routeIs($user->dashboardRoute())">
                         {{ __('Dashboard') }}
                     </x-nav-link>
@@ -35,6 +35,14 @@
                             {{ __('Tracker') }}
                         </x-nav-link>
                     @endif
+                    @if ($user->isDirector())
+                        <x-nav-link :href="route('director.counselors.index')" :active="request()->routeIs('director.counselors.*')">
+                            {{ __('Counselors') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('director.colleges.index')" :active="request()->routeIs('director.colleges.*', 'director.programs.*')">
+                            {{ __('Colleges & Programs') }}
+                        </x-nav-link>
+                    @endif
                     <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
                         {{ __('Profile') }}
                     </x-nav-link>
@@ -42,7 +50,7 @@
             </div>
 
             <!-- User + Theme + Logout -->
-            <div class="hidden sm:flex sm:items-center sm:gap-3 sm:ms-6">
+            <div class="hidden lg:flex lg:items-center lg:gap-3 lg:ms-6">
                 @if ($isStaff)
                     <x-notification-bell :count="$unreadCount" />
                 @endif
@@ -61,7 +69,7 @@
             </div>
 
             <!-- Hamburger -->
-            <div class="-me-2 flex items-center gap-2 sm:hidden">
+            <div class="-me-2 flex items-center gap-2 lg:hidden">
                 @if ($isStaff)
                     <x-notification-bell :count="$unreadCount" />
                 @endif
@@ -76,7 +84,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden lg:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route($user->dashboardRoute())" :active="request()->routeIs($user->dashboardRoute())">
                 {{ __('Dashboard') }}
@@ -95,6 +103,14 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('staff.notifications.index')" :active="request()->routeIs('staff.notifications.*')">
                     {{ __('Notifications') }} @if ($unreadCount) ({{ $unreadCount }}) @endif
+                </x-responsive-nav-link>
+            @endif
+            @if ($user->isDirector())
+                <x-responsive-nav-link :href="route('director.counselors.index')" :active="request()->routeIs('director.counselors.*')">
+                    {{ __('Counselors') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('director.colleges.index')" :active="request()->routeIs('director.colleges.*', 'director.programs.*')">
+                    {{ __('Colleges & Programs') }}
                 </x-responsive-nav-link>
             @endif
             <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">

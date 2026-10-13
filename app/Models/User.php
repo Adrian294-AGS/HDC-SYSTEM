@@ -18,8 +18,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 
 /**
- * `role` is intentionally NOT fillable: it is only ever set explicitly in code
- * (registration hardcodes Student; seeders and future admin screens set staff roles).
+ * `role`, `is_active` and `must_change_password` are intentionally NOT fillable: they are only
+ * ever set explicitly in code (registration hardcodes Student; the director's screens set staff accounts).
  */
 #[Fillable(['name', 'last_name', 'first_name', 'middle_name', 'email', 'password', 'student_number', 'program_id', 'year_level'])]
 #[Hidden(['password', 'remember_token'])]
@@ -27,6 +27,14 @@ class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
+
+    /**
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'is_active' => true,
+        'must_change_password' => false,
+    ];
 
     /**
      * Get the attributes that should be cast.
@@ -40,6 +48,9 @@ class User extends Authenticatable
             'password' => 'hashed',
             'role' => Role::class,
             'year_level' => 'integer',
+            'is_active' => 'boolean',
+            'must_change_password' => 'boolean',
+            'last_login_at' => 'datetime',
         ];
     }
 
@@ -154,7 +165,7 @@ class User extends Authenticatable
      */
     public function scopeStaffResponsibleFor(Builder $query, ?int $collegeId): void
     {
-        $query->where(function (Builder $query) use ($collegeId): void {
+        $query->where('is_active', true)->where(function (Builder $query) use ($collegeId): void {
             $query->where('role', Role::Director);
 
             if ($collegeId !== null) {
