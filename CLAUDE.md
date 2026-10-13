@@ -1,3 +1,29 @@
+# ULS HDC Cumulative Record System
+
+Laravel + MySQL + Blade system for the school's Human Development Center (HDC).
+It replaces paper cumulative record forms filled out during enrollment (6,000+ students).
+
+## Roles
+- student: registers, fills out and edits ONLY their own cumulative record
+- counselor: views records ONLY of their assigned college(s)
+- hdc_head (admin): views all colleges, manages counselors and college assignments, sees reports
+
+## Core features
+1. Auth for students and staff (role-based middleware)
+2. Cumulative record form (personal info, family background, education, psychological concerns checklist e.g. depression, anxiety)
+3. Records auto-routed by the student's program -> college
+4. Staff notification when a new record is submitted
+5. Reports: counts of students per psychological concern, per college
+6. Confidential data: no public access, other departments request data by letter
+
+## Rules
+- Mental health and family data are confidential: always enforce access by role and college
+- Keep the UI simple; users should not need training
+- Commit after each finished feature with a clear message (the prof checks GitHub progress)
+
+---
+
+
 <laravel-boost-guidelines>
 # Laravel Application
 
