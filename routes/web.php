@@ -5,6 +5,7 @@ use App\Http\Controllers\Director\CounselorController;
 use App\Http\Controllers\Director\ProgramController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Staff\DashboardController;
+use App\Http\Controllers\Staff\EntranceTestResultController;
 use App\Http\Controllers\Staff\NotificationController;
 use App\Http\Controllers\Staff\RecordController;
 use App\Http\Controllers\Staff\TrackerController;
@@ -70,6 +71,14 @@ Route::middleware(['auth', 'verified', 'role:counselor,director'])->prefix('staf
     Route::get('/records/{record}', [RecordController::class, 'show'])->name('records.show');
     Route::get('/records/{record}/photo', [RecordController::class, 'photo'])->name('records.photo');
     Route::post('/records/{record}/review', [RecordController::class, 'review'])->name('records.review');
+
+    // SATA entrance test results (never exposed to students)
+    Route::get('/students/{student}/sata', [EntranceTestResultController::class, 'index'])->name('sata.index');
+    Route::get('/students/{student}/sata/create', [EntranceTestResultController::class, 'create'])->name('sata.create');
+    Route::post('/students/{student}/sata', [EntranceTestResultController::class, 'store'])->name('sata.store');
+    Route::get('/sata/{result}', [EntranceTestResultController::class, 'show'])->name('sata.show');
+    Route::get('/sata/{result}/edit', [EntranceTestResultController::class, 'edit'])->name('sata.edit');
+    Route::put('/sata/{result}', [EntranceTestResultController::class, 'update'])->name('sata.update');
 
     Route::get('/tracker', TrackerController::class)->name('tracker');
 

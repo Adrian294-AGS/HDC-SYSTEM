@@ -108,6 +108,39 @@ class User extends Authenticatable
         return $this->hasOne(CumulativeRecord::class)->latestOfMany();
     }
 
+    /**
+     * SATA entrance test results for this student (retakes included).
+     *
+     * @return HasMany<EntranceTestResult, $this>
+     */
+    public function entranceTestResults(): HasMany
+    {
+        return $this->hasMany(EntranceTestResult::class, 'student_id');
+    }
+
+    /**
+     * Current SATA result: the latest by exam date (newest entry wins on the same date).
+     *
+     * @return HasOne<EntranceTestResult, $this>
+     */
+    public function latestEntranceTestResult(): HasOne
+    {
+        return $this->hasOne(EntranceTestResult::class, 'student_id')->ofMany(['exam_date' => 'max', 'id' => 'max']);
+    }
+
+    /**
+     * Whether a staff user may see this student's records (student is in one of their colleges).
+     */
+    public function isVisibleTo(User $viewer): bool
+    {
+        $collegeId = $this->program?->college_id;
+
+        return $this->isStudent()
+            && ! $viewer->isStudent()
+            && $collegeId !== null
+            && $viewer->accessibleCollegeIds()->contains($collegeId);
+    }
+
     public function isStudent(): bool
     {
         return $this->role === Role::Student;

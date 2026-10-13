@@ -1,5 +1,10 @@
 {{-- Paginated table of students with their latest Form 5 status. Expects $students (paginator). --}}
-@php use App\Support\Form5; @endphp
+@php
+    use App\Http\Controllers\Staff\EntranceTestResultController;
+    use App\Support\Form5;
+
+    $listFilters = array_filter(request()->only(EntranceTestResultController::LIST_FILTERS), 'filled');
+@endphp
 
 <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg overflow-hidden">
     @if ($students->isEmpty())
@@ -16,6 +21,7 @@
                         <th scope="col" class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-300">{{ __('Year') }}</th>
                         <th scope="col" class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-300">{{ __('Status') }}</th>
                         <th scope="col" class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-300">{{ __('Submitted') }}</th>
+                        <th scope="col" class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-300">{{ __('SATA') }}</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -39,6 +45,14 @@
                             <td class="px-4 py-3 text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ Form5::YEAR_LEVELS[$student->year_level] ?? '—' }}</td>
                             <td class="px-4 py-3"><x-record-status :status="$record?->status" /></td>
                             <td class="px-4 py-3 text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ $record?->submitted_at?->format('M j, Y') ?? '—' }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                @if ($student->has_sata)
+                                    <a href="{{ route('staff.sata.index', $student) }}" class="inline-flex rounded-full bg-green-50 dark:bg-green-500/10 px-2.5 py-0.5 text-xs font-medium text-green-700 dark:text-green-400 hover:underline">{{ __('Encoded') }}</a>
+                                @else
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">{{ __('Not encoded') }}</span>
+                                    <a href="{{ route('staff.sata.create', [$student, ...$listFilters]) }}" class="ms-2 text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300">{{ __('Encode SATA result') }}</a>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

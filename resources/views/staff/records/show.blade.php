@@ -12,7 +12,10 @@
                 <a href="{{ route('staff.records.index') }}" class="text-sm text-gray-600 dark:text-gray-400 underline hover:text-gray-900 dark:hover:text-gray-100">&larr; {{ __('All records') }}</a>
                 <h2 class="mt-1 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">{{ $record->fullName() ?: $student->name }}</h2>
             </div>
-            <x-record-status :status="$record->status" />
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="#sata" class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300">{{ $sata ? __('SATA result') : __('Encode SATA result') }} &darr;</a>
+                <x-record-status :status="$record->status" />
+            </div>
         </div>
     </x-slot>
 
@@ -79,6 +82,32 @@
             <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6">
                 @include('student.record.summary', ['editable' => false])
             </div>
+
+            {{-- SATA entrance test (staff only) --}}
+            <section id="sata" class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6" aria-labelledby="sata-heading">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <h3 id="sata-heading" class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ __('Entrance Test Result (SATA)') }}</h3>
+                    <div class="flex flex-wrap items-center gap-3 text-sm">
+                        @if ($sataCount)
+                            <a href="{{ route('staff.sata.index', $student) }}" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300">{{ trans_choice('History (:count result)|History (:count results)', $sataCount) }}</a>
+                        @endif
+                        @if ($sata)
+                            <a href="{{ route('staff.sata.edit', $sata) }}" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300">{{ __('Edit') }}</a>
+                        @endif
+                        <a href="{{ route('staff.sata.create', $student) }}" class="inline-flex items-center px-3 py-1.5 bg-gray-800 dark:bg-gray-100 dark:text-gray-900 rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white">
+                            {{ $sata ? __('Encode retake') : __('Encode SATA result') }}
+                        </a>
+                    </div>
+                </div>
+
+                @if ($sata)
+                    <div class="mt-4">
+                        @include('staff.sata.partials.result-table', ['result' => $sata])
+                    </div>
+                @else
+                    <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">{{ __('No SATA result has been encoded for this student yet.') }}</p>
+                @endif
+            </section>
         </div>
     </div>
 </x-app-layout>

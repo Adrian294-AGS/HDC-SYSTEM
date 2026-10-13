@@ -7,7 +7,7 @@
 @endphp
 
 <form method="GET" action="{{ $action }}" class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4" role="search">
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
         <div class="lg:col-span-1">
             <x-input-label for="q" :value="__('Search')" />
             <x-text-input id="q" name="q" type="search" class="mt-1 block w-full text-sm" :value="$filters['q']" placeholder="{{ __('Name or student no.') }}" />
@@ -49,6 +49,16 @@
                 <option value="">{{ __('Any status') }}</option>
                 @foreach ($statuses as $key => $label)
                     <option value="{{ $key }}" @selected($filters['status'] === $key)>{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div>
+            <x-input-label for="sata" :value="__('SATA')" />
+            <select id="sata" name="sata" class="{{ $selectClasses }}">
+                <option value="">{{ __('Any') }}</option>
+                @foreach (\App\Support\StudentRecordQuery::SATA_FILTERS as $key => $label)
+                    <option value="{{ $key }}" @selected($filters['sata'] === $key)>{{ $label }}</option>
                 @endforeach
             </select>
         </div>

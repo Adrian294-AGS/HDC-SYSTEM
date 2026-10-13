@@ -27,6 +27,7 @@ class RecordController extends Controller
             'query' => $query,
             'students' => $query->students()
                 ->with(['program.college', 'latestCumulativeRecord'])
+                ->withExists('entranceTestResults as has_sata')
                 ->orderBy('users.last_name')
                 ->orderBy('users.first_name')
                 ->paginate(20)
@@ -43,8 +44,17 @@ class RecordController extends Controller
 
         $this->log($request, $record, AccessLog::ACTION_VIEW);
 
+        $record->load(['student.program.college', 'program.college', 'parents', 'siblings', 'schools', 'organizations', 'reviewer']);
+        $sata = $record->student->latestEntranceTestResult()->with(['encoder', 'updater'])->first();
+
+        if ($sata) {
+            EntranceTestResultController::logView($request, $sata);
+        }
+
         return view('staff.records.show', [
-            'record' => $record->load(['student.program.college', 'program.college', 'parents', 'siblings', 'schools', 'organizations', 'reviewer']),
+            'record' => $record,
+            'sata' => $sata,
+            'sataCount' => $record->student->entranceTestResults()->count(),
         ]);
     }
 

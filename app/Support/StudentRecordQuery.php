@@ -32,12 +32,22 @@ final class StudentRecordQuery
     ];
 
     /**
+     * SATA filter keys => labels.
+     *
+     * @var array<string, string>
+     */
+    public const SATA_FILTERS = [
+        'encoded' => 'Encoded',
+        'not_encoded' => 'Not encoded',
+    ];
+
+    /**
      * @var Collection<int, int>
      */
     private Collection $collegeIds;
 
     /**
-     * @param  array{college_id?: int|null, program_id?: int|null, year_level?: int|null, status?: string|null, q?: string|null}  $filters
+     * @param  array{college_id?: int|null, program_id?: int|null, year_level?: int|null, status?: string|null, sata?: string|null, q?: string|null}  $filters
      */
     public function __construct(private User $viewer, private array $filters = [])
     {
@@ -58,12 +68,14 @@ final class StudentRecordQuery
         $programId = $request->integer('program_id') ?: null;
         $yearLevel = $request->integer('year_level') ?: null;
         $status = $request->string('status')->toString() ?: null;
+        $sata = $request->string('sata')->toString() ?: null;
 
         $query->filters = [
             'college_id' => $query->collegeIds->contains($collegeId) ? $collegeId : null,
             'program_id' => $programId && $query->programs()->contains('id', $programId) ? $programId : null,
             'year_level' => array_key_exists((int) $yearLevel, Form5::YEAR_LEVELS) ? $yearLevel : null,
             'status' => in_array($status, $allowedStatuses ?? array_keys(self::STATUSES), true) ? $status : null,
+            'sata' => array_key_exists((string) $sata, self::SATA_FILTERS) ? $sata : null,
             'q' => mb_substr(trim($request->string('q')->toString()), 0, 100) ?: null,
         ];
 
@@ -109,7 +121,18 @@ final class StudentRecordQuery
     public function students(): Builder
     {
         return $this->baseStudents()
-            ->when($this->filters['status'] ?? null, fn (Builder $query, string $status) => $this->applyStatus($query, $status));
+            ->when($this->filters['status'] ?? null, fn (Builder $query, string $status) => $this->applyStatus($query, $status))
+            ->when($this->filters['sata'] ?? null, fn (Builder $query, string $sata) => $sata === 'encoded'
+                ? $query->whereHas('entranceTestResults')
+                : $query->whereDoesntHave('entranceTestResults'));
+    }
+
+    /**
+     * Number of visible students (status and SATA filters ignored) with no SATA result yet.
+     */
+    public function withoutSataCount(): int
+    {
+        return $this->baseStudents()->whereDoesntHave('entranceTestResults')->count();
     }
 
     /**

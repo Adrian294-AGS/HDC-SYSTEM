@@ -43,8 +43,10 @@ class TrackerController extends Controller
             'query' => $query,
             'colleges' => $colleges,
             'grandTotals' => $this->tally($counts, $statusKeys),
+            'withoutSata' => $query->withoutSataCount(),
             'students' => $query->notSubmitted()
                 ->with(['program.college', 'latestCumulativeRecord'])
+                ->withExists('entranceTestResults as has_sata')
                 ->orderBy('users.last_name')
                 ->orderBy('users.first_name')
                 ->paginate(20)

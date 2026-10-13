@@ -17,11 +17,21 @@
                 'statuses' => array_intersect_key($statusLabels, array_flip([StudentRecordQuery::NOT_STARTED, 'draft'])),
             ])
 
+            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 flex flex-wrap items-center justify-between gap-3">
+                <p class="text-sm text-gray-700 dark:text-gray-300">
+                    <span class="text-2xl font-semibold tabular-nums text-gray-900 dark:text-gray-100">{{ number_format($withoutSata) }}</span>
+                    {{ trans_choice('student without a SATA result|students without a SATA result', $withoutSata) }}
+                </p>
+                @if ($withoutSata)
+                    <a href="{{ route('staff.records.index', array_filter([...$query->filters(), 'status' => null, 'sata' => 'not_encoded'])) }}" class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300">{{ __('Show them and start encoding') }} &rarr;</a>
+                @endif
+            </div>
+
             {{-- Counts per college and year level --}}
             <section class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg overflow-hidden" aria-labelledby="counts-heading">
                 <div class="flex flex-wrap items-baseline justify-between gap-2 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
                     <h3 id="counts-heading" class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ __('Records by college and year level') }}</h3>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('Status filter does not apply to these counts.') }}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('Status and SATA filters do not apply to these counts.') }}</p>
                 </div>
 
                 @if ($colleges->isEmpty())
