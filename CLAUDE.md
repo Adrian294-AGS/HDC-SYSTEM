@@ -1,24 +1,36 @@
 # ULS HDC Cumulative Record System
 
-Laravel + MySQL + Blade system for the school's Human Development Center (HDC).
-It replaces paper cumulative record forms filled out during enrollment (6,000+ students).
+Laravel 13 + MySQL + Blade system for the Human Development Center (HDC) of the University of La Salette, Santiago City.
+It replaces paper forms filled out during enrollment (6,000+ students).
+
+## Read these before building any feature
+- docs/form-fields.md: exact fields of all 3 HDC forms, who fills each, sensitivity levels, privacy rules
+- docs/needs-assessment.md: functional requirements FR-01 to FR-11, roles, open questions
+- docs/interview-manuscript.md: interview with the HDC Director
+- docs/forms/: the original scanned forms (PDF)
 
 ## Roles
-- student: registers, fills out and edits ONLY their own cumulative record
-- counselor: views records ONLY of their assigned college(s)
-- hdc_head (admin): views all colleges, manages counselors and college assignments, sees reports
+- student: registers, fills out and edits ONLY their own Form 5 (Student Cumulative Record)
+- counselor: sees students ONLY in their assigned college(s); encodes SATA entrance test results; fills Form 8 (Intake Interview)
+- director: sees all colleges, manages counselors and college assignments, views reports
+
+## The 3 forms
+- Form 5, Student Cumulative Record: filled by the student online
+- Entrance Test Result (SATA): encoded by staff
+- Form 8, Intake Interview: filled by a counselor; holds the psychological concerns used in reports
 
 ## Core features
-1. Auth for students and staff (role-based middleware)
-2. Cumulative record form (personal info, family background, education, psychological concerns checklist e.g. depression, anxiety)
-3. Records auto-routed by the student's program -> college
-4. Staff notification when a new record is submitted
-5. Reports: counts of students per psychological concern, per college
-6. Confidential data: no public access, other departments request data by letter
+1. Login for students and staff, role-based middleware
+2. Online Form 5 with data privacy consent
+3. Records grouped by college via the student's program
+4. Submission tracker: submitted vs missing records; staff notified on new submission
+5. Search and filter by college and year level
+6. Reports: COUNTS of psychological concerns from Form 8 per college and year level (counts under 5 shown as "fewer than 5")
 
 ## Rules
-- Mental health and family data are confidential: always enforce access by role and college
-- Keep the UI simple; users should not need training
+- Mental health, family and health data are confidential: enforce access by role AND assigned college on every query
+- Students never see Form 8 or SATA results
+- Keep the UI simple; no training should be needed
 - Commit after each finished feature with a clear message (the prof checks GitHub progress)
 
 ---
