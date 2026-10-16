@@ -21,7 +21,7 @@
             <x-flash />
 
             @forelse ($results as $result)
-                <section class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6" aria-labelledby="result-{{ $result->id }}">
+                <section class="glass-panel sm:rounded-lg p-4 sm:p-6" aria-labelledby="result-{{ $result->id }}">
                     <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
                         <h3 id="result-{{ $result->id }}" class="text-base font-semibold text-gray-900 dark:text-gray-100">
                             {{ __('Exam on :date', ['date' => $result->exam_date->format('F j, Y')]) }}
@@ -36,7 +36,7 @@
                     @include('staff.sata.partials.result-table')
                 </section>
             @empty
-                <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6 text-sm text-gray-600 dark:text-gray-400">{{ __('No SATA result has been encoded for this student yet.') }}</div>
+                <div class="glass-panel sm:rounded-lg p-6 text-sm text-gray-600 dark:text-gray-400">{{ __('No SATA result has been encoded for this student yet.') }}</div>
             @endforelse
         </div>
     </div>

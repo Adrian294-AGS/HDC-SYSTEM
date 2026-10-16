@@ -10,7 +10,7 @@
         {{ $label }} @if ($required)<span class="text-red-600 dark:text-red-400" aria-hidden="true">*</span>@endif
     </x-input-label>
     <select id="{{ $id }}" name="{{ \App\Support\FormName::html($name) }}"
-        class="mt-1 block w-full border-gray-300 bg-white text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-indigo-400 dark:focus:ring-indigo-400"
+        class="mt-1 block w-full glass-input focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:focus:border-indigo-400 dark:focus:ring-indigo-400"
         {{ $attributes->except(['class', 'x-show', 'x-cloak']) }}>
         <option value="">{{ $placeholder }}</option>
         @if ($slot->isNotEmpty())

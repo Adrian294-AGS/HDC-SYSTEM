@@ -6,7 +6,7 @@
     $listFilters = array_filter(request()->only(EntranceTestResultController::LIST_FILTERS), 'filled');
 @endphp
 
-<div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg overflow-hidden">
+<div class="glass-panel sm:rounded-lg overflow-hidden">
     @if ($students->isEmpty())
         <p class="p-6 text-sm text-gray-600 dark:text-gray-400">{{ $emptyMessage ?? __('No students match these filters.') }}</p>
     @else
@@ -62,5 +62,5 @@
 </div>
 
 @if ($students->hasPages())
-    <div class="mt-4">{{ $students->links() }}</div>
+    <div class="mt-4 glass-panel sm:rounded-lg px-4 py-3">{{ $students->links() }}</div>
 @endif

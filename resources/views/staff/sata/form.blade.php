@@ -12,7 +12,7 @@
         $initial["{$key}_descriptor"] = (string) $fieldValue("{$key}_descriptor");
     }
 
-    $inputBase = 'block w-full rounded-md bg-white text-gray-900 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-indigo-400 dark:focus:ring-indigo-400';
+    $inputBase = 'block w-full rounded-md glass-input text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:focus:border-indigo-400 dark:focus:ring-indigo-400';
     $inputNormal = $inputBase.' border-gray-300 dark:border-gray-600';
     $inputError = $inputBase.' border-red-500 dark:border-red-500';
     // Red border (both themes) when the field has an error.
@@ -43,7 +43,7 @@
             @endif
 
             <form method="POST" action="{{ $editing ? route('staff.sata.update', $result) : route('staff.sata.store', $student) }}"
-                class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6"
+                class="glass-panel sm:rounded-lg p-4 sm:p-6"
                 x-data="sataForm(@js($initial), @js(config('sata.ranges')))">
                 <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ __('Scholastic Abilities Test for Adults (SATA)') }}</h3>
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">

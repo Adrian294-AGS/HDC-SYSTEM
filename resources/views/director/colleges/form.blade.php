@@ -15,7 +15,7 @@
             <x-flash />
 
             <form method="POST" action="{{ $editing ? route('director.colleges.update', $college) : route('director.colleges.store') }}"
-                class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6 space-y-6">
+                class="glass-panel sm:rounded-lg p-4 sm:p-6 space-y-6">
 
                 <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ __('College details') }}</h3>
                 <div class="grid gap-6 sm:grid-cols-3">
@@ -36,7 +36,7 @@
 
             @if ($editing)
                 {{-- Programs --}}
-                <section class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg overflow-hidden" aria-labelledby="programs-heading">
+                <section class="glass-panel sm:rounded-lg overflow-hidden" aria-labelledby="programs-heading">
                     <h3 id="programs-heading" class="border-b border-gray-200 dark:border-gray-700 px-4 py-3 text-base font-semibold text-gray-900 dark:text-gray-100 sm:px-6">{{ __('Programs') }}</h3>
 
                     @if ($college->programs->isNotEmpty())
@@ -89,7 +89,7 @@
                 </section>
 
                 {{-- Counselors --}}
-                <section class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6" aria-labelledby="counselors-heading">
+                <section class="glass-panel sm:rounded-lg p-4 sm:p-6" aria-labelledby="counselors-heading">
                     <h3 id="counselors-heading" class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ __('Assigned counselors') }}</h3>
                     @forelse ($college->counselors as $counselor)
                         <p class="mt-2 text-sm text-gray-900 dark:text-gray-100">{{ $counselor->name }} <span class="text-gray-500 dark:text-gray-400">· {{ $counselor->email }}</span></p>
@@ -102,7 +102,7 @@
                 </section>
 
                 {{-- Delete --}}
-                <section class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6" aria-labelledby="delete-college-heading">
+                <section class="glass-panel sm:rounded-lg p-4 sm:p-6" aria-labelledby="delete-college-heading">
                     <h3 id="delete-college-heading" class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ __('Delete college') }}</h3>
                     @if ($college->programs->isNotEmpty())
                         <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ __('This college still has programs, so it cannot be deleted. Move or delete its programs first.') }}</p>

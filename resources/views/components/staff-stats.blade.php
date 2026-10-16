@@ -13,7 +13,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
         <div class="grid gap-4 grid-cols-2 lg:grid-cols-4">
             @foreach ($tiles as $tile)
-                <a href="{{ $tile['href'] }}" class="block rounded-lg bg-white dark:bg-gray-800 p-5 shadow-sm ring-1 ring-transparent transition hover:ring-indigo-300 dark:hover:ring-indigo-500/60">
+                <a href="{{ $tile['href'] }}" class="block glass-panel rounded-lg p-5 ring-1 ring-transparent transition hover:ring-indigo-300 dark:hover:ring-indigo-500/60">
                     <p class="text-sm text-gray-600 dark:text-gray-400">{{ $tile['label'] }}</p>
                     <p class="mt-1 text-3xl font-semibold tabular-nums text-gray-900 dark:text-gray-100">{{ number_format($tile['value']) }}</p>
                 </a>

@@ -10,9 +10,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (ev
     } catch (e) {}
 
     if (saved !== 'dark' && saved !== 'light') {
-        document.documentElement.classList.toggle('dark', event.matches);
-        document.documentElement.style.colorScheme = event.matches ? 'dark' : 'light';
-        window.dispatchEvent(new CustomEvent('theme-changed', { detail: event.matches }));
+        window.applyTheme(event.matches, false);
     }
 });
 

@@ -8,11 +8,11 @@
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <x-flash />
 
-            <form method="POST" action="{{ route('director.programs.update', $program) }}" class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6 space-y-6">
+            <form method="POST" action="{{ route('director.programs.update', $program) }}" class="glass-panel sm:rounded-lg p-4 sm:p-6 space-y-6">
 
                 <div>
                     <x-input-label for="college_id">{{ __('College') }} <span class="text-red-600 dark:text-red-400" aria-hidden="true">*</span></x-input-label>
-                    <select id="college_id" name="college_id" class="mt-1 block w-full border-gray-300 bg-white text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-indigo-400 dark:focus:ring-indigo-400">
+                    <select id="college_id" name="college_id" class="mt-1 block w-full glass-input focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:focus:border-indigo-400 dark:focus:ring-indigo-400">
                         @foreach ($colleges as $college)
                             <option value="{{ $college->id }}" @selected((string) old('college_id', $program->college_id) === (string) $college->id)>{{ $college->code }} – {{ $college->name }}</option>
                         @endforeach
@@ -45,7 +45,7 @@
                 @method('PUT')
             </form>
 
-            <section class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6" aria-labelledby="delete-program-heading">
+            <section class="glass-panel sm:rounded-lg p-4 sm:p-6" aria-labelledby="delete-program-heading">
                 <h3 id="delete-program-heading" class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ __('Delete program') }}</h3>
                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
                     @if ($program->students_count)

@@ -16,21 +16,24 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-gray-900 antialiased bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
-        <div class="absolute right-4 top-4">
+    <body class="font-sans text-gray-900 antialiased bg-transparent dark:text-gray-100">
+        @include('layouts.partials.theme-background')
+
+        <div class="absolute right-4 top-4 z-10">
             <x-theme-toggle />
         </div>
 
-        <div class="min-h-screen flex flex-col sm:justify-center items-center px-4 pt-16 pb-8 sm:px-0 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-            <div class="flex flex-col items-center gap-2">
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500 dark:text-gray-400" />
+        <div class="min-h-screen flex flex-col justify-center items-center px-4 pt-16 pb-8 sm:pt-8">
+            <div class="glass-card w-full sm:max-w-md px-6 py-6 sm:px-8">
+                <a href="/" class="flex flex-col items-center gap-2 text-center">
+                    <x-application-logo class="w-16 h-16 fill-current text-gray-700 dark:text-gray-200" />
+                    <span class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">ULS HDC</span>
+                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Human Development Center') }}</span>
                 </a>
-                <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">{{ __('ULS Human Development Center') }}</span>
-            </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden rounded-lg dark:bg-gray-800 dark:shadow-none dark:ring-1 dark:ring-gray-700">
-                {{ $slot }}
+                <div class="mt-6">
+                    {{ $slot }}
+                </div>
             </div>
         </div>
     </body>

@@ -25,7 +25,7 @@
                 <div class="rounded-md bg-green-50 dark:bg-green-500/10 px-4 py-3 text-sm text-green-800 dark:text-green-300" role="status">{{ session('status') }}</div>
             @endif
 
-            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6">
+            <div class="glass-panel sm:rounded-lg p-4 sm:p-6">
                 <div class="flex flex-col gap-6 sm:flex-row sm:items-start">
                     <div class="shrink-0">
                         @if ($record->photo_path)
@@ -79,12 +79,12 @@
                 @endif
             </div>
 
-            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6">
+            <div class="glass-panel sm:rounded-lg p-4 sm:p-6">
                 @include('student.record.summary', ['editable' => false])
             </div>
 
             {{-- SATA entrance test (staff only) --}}
-            <section id="sata" class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6" aria-labelledby="sata-heading">
+            <section id="sata" class="glass-panel sm:rounded-lg p-4 sm:p-6" aria-labelledby="sata-heading">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <h3 id="sata-heading" class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ __('Entrance Test Result (SATA)') }}</h3>
                     <div class="flex flex-wrap items-center gap-3 text-sm">

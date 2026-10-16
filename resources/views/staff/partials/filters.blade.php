@@ -3,10 +3,10 @@
     use App\Support\Form5;
 
     $filters = $query->filters();
-    $selectClasses = 'mt-1 block w-full border-gray-300 bg-white text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-indigo-400 dark:focus:ring-indigo-400 text-sm';
+    $selectClasses = 'mt-1 block w-full glass-input focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:focus:border-indigo-400 dark:focus:ring-indigo-400 text-sm';
 @endphp
 
-<form method="GET" action="{{ $action }}" class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4" role="search">
+<form method="GET" action="{{ $action }}" class="glass-panel sm:rounded-lg p-4" role="search">
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
         <div class="lg:col-span-1">
             <x-input-label for="q" :value="__('Search')" />

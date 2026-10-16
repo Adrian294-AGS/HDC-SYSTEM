@@ -19,7 +19,7 @@
             @endif
 
             <form method="POST" action="{{ $editing ? route('director.counselors.update', $counselor) : route('director.counselors.store') }}"
-                class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-4 sm:p-6 space-y-6">
+                class="glass-panel sm:rounded-lg p-4 sm:p-6 space-y-6">
 
                 <div class="grid gap-6 sm:grid-cols-3">
                     <x-form.text name="last_name" label="Last name" :value="$counselor->last_name" required autocomplete="off" />

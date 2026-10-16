@@ -35,7 +35,7 @@
                             <label class="block text-xs font-medium text-gray-600 dark:text-gray-400" :for="'{{ $name }}_' + index + '_{{ $key }}'">{{ $column['label'] }}</label>
                             @if (($column['type'] ?? 'text') === 'select')
                                 <select x-model="row.{{ $key }}" :id="'{{ $name }}_' + index + '_{{ $key }}'" :name="'{{ $name }}[' + index + '][{{ $key }}]'"
-                                    class="mt-1 block w-full rounded-md border-gray-300 bg-white text-gray-900 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-indigo-400 dark:focus:ring-indigo-400">
+                                    class="mt-1 block w-full rounded-md glass-input text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:focus:border-indigo-400 dark:focus:ring-indigo-400">
                                     <option value="">{{ __('Select…') }}</option>
                                     @foreach ($column['options'] as $optionValue => $optionLabel)
                                         <option value="{{ $optionValue }}">{{ $optionLabel }}</option>
@@ -43,7 +43,7 @@
                                 </select>
                             @else
                                 <input type="{{ $column['type'] ?? 'text' }}" x-model="row.{{ $key }}" :id="'{{ $name }}_' + index + '_{{ $key }}'" :name="'{{ $name }}[' + index + '][{{ $key }}]'"
-                                    class="mt-1 block w-full rounded-md border-gray-300 bg-white text-gray-900 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-indigo-400 dark:focus:ring-indigo-400"
+                                    class="mt-1 block w-full rounded-md glass-input text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:focus:border-indigo-400 dark:focus:ring-indigo-400"
                                     @if (($column['type'] ?? 'text') === 'number') min="0" max="120" @endif>
                             @endif
                             <p x-show="error(index, '{{ $key }}')" x-text="error(index, '{{ $key }}')" class="mt-1 text-xs text-red-600 dark:text-red-400"></p>

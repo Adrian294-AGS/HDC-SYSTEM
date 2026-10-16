@@ -17,7 +17,7 @@
                 <div class="rounded-md bg-green-50 dark:bg-green-500/10 px-4 py-3 text-sm text-green-800 dark:text-green-300" role="status">{{ session('status') }}</div>
             @endif
 
-            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg overflow-hidden">
+            <div class="glass-panel sm:rounded-lg overflow-hidden">
                 @forelse ($notifications as $notification)
                     <a href="{{ route('staff.notifications.open', $notification->id) }}"
                         @class([
@@ -47,7 +47,7 @@
             </div>
 
             @if ($notifications->hasPages())
-                <div>{{ $notifications->links() }}</div>
+                <div class="glass-panel sm:rounded-lg px-4 py-3">{{ $notifications->links() }}</div>
             @endif
         </div>
     </div>

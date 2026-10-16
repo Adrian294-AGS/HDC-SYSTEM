@@ -13,7 +13,7 @@
             <x-flash />
 
             @forelse ($colleges as $college)
-                <section class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg overflow-hidden" aria-labelledby="college-{{ $college->id }}">
+                <section class="glass-panel sm:rounded-lg overflow-hidden" aria-labelledby="college-{{ $college->id }}">
                     <header class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 px-4 py-3">
                         <h3 id="college-{{ $college->id }}" class="text-base font-semibold text-gray-900 dark:text-gray-100">
                             <span class="me-2 inline-flex rounded bg-gray-100 dark:bg-gray-700 px-2 py-0.5 text-xs font-semibold text-gray-700 dark:text-gray-300">{{ $college->code }}</span>{{ $college->name }}
@@ -45,7 +45,7 @@
                     </div>
                 </section>
             @empty
-                <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6 text-sm text-gray-600 dark:text-gray-400">{{ __('No colleges yet. Add the first one.') }}</div>
+                <div class="glass-panel sm:rounded-lg p-6 text-sm text-gray-600 dark:text-gray-400">{{ __('No colleges yet. Add the first one.') }}</div>
             @endforelse
         </div>
     </div>

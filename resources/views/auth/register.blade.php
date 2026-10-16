@@ -40,7 +40,7 @@
         <!-- Program (grouped by college) -->
         <div class="mt-4">
             <x-input-label for="program_id" :value="__('Program')" />
-            <select id="program_id" name="program_id" required class="block mt-1 w-full border-gray-300 bg-white text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-indigo-400 dark:focus:ring-indigo-400">
+            <select id="program_id" name="program_id" required class="block mt-1 w-full glass-input focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:focus:border-indigo-400 dark:focus:ring-indigo-400">
                 <option value="" disabled @selected(! old('program_id'))>{{ __('Select your program') }}</option>
                 @foreach ($colleges as $college)
                     <optgroup label="{{ $college->code }} – {{ $college->name }}">
@@ -58,7 +58,7 @@
         <!-- Year Level -->
         <div class="mt-4">
             <x-input-label for="year_level" :value="__('Year Level')" />
-            <select id="year_level" name="year_level" required class="block mt-1 w-full border-gray-300 bg-white text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-indigo-400 dark:focus:ring-indigo-400">
+            <select id="year_level" name="year_level" required class="block mt-1 w-full glass-input focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:focus:border-indigo-400 dark:focus:ring-indigo-400">
                 <option value="" disabled @selected(! old('year_level'))>{{ __('Select your year level') }}</option>
                 @foreach ([1 => '1st Year', 2 => '2nd Year', 3 => '3rd Year', 4 => '4th Year', 5 => '5th Year'] as $level => $label)
                     <option value="{{ $level }}" @selected((string) old('year_level') === (string) $level)>{{ $label }}</option>

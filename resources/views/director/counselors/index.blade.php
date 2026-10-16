@@ -12,7 +12,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
             <x-flash />
 
-            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg overflow-hidden">
+            <div class="glass-panel sm:rounded-lg overflow-hidden">
                 @if ($counselors->isEmpty())
                     <p class="p-6 text-sm text-gray-600 dark:text-gray-400">{{ __('No counselor accounts yet.') }}</p>
                 @else
