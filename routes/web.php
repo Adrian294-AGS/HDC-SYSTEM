@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Director\CollegeController;
 use App\Http\Controllers\Director\CounselorController;
 use App\Http\Controllers\Director\ProgramController;
@@ -90,6 +91,16 @@ Route::middleware(['auth', 'verified', 'role:counselor,director'])->prefix('staf
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+Route::middleware(['auth', 'verified', 'role:student,counselor,director'])->group(function () {
+    Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
+    Route::post('/appointments', [AppointmentController::class, 'store'])
+        ->middleware('role:student')
+        ->name('appointments.store');
+    Route::patch('/appointments/{appointment}/status', [AppointmentController::class, 'updateStatus'])
+        ->middleware('role:counselor,director')
+        ->name('appointments.status');
 });
 
 require __DIR__.'/auth.php';

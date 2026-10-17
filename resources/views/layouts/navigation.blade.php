@@ -26,6 +26,9 @@
                         <x-nav-link :href="route('student.record.index')" :active="request()->routeIs('student.record.*')">
                             {{ __('My Record') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('appointments.index')" :active="request()->routeIs('appointments.*')">
+                            {{ __('Appointments') }}
+                        </x-nav-link>
                     @endif
                     @if ($isStaff)
                         <x-nav-link :href="route('staff.records.index')" :active="request()->routeIs('staff.records.*')">
@@ -33,6 +36,9 @@
                         </x-nav-link>
                         <x-nav-link :href="route('staff.tracker')" :active="request()->routeIs('staff.tracker')">
                             {{ __('Tracker') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('appointments.index')" :active="request()->routeIs('appointments.*')">
+                            {{ __('Appointments') }}
                         </x-nav-link>
                     @endif
                     @if ($user->isDirector())
@@ -93,6 +99,9 @@
                 <x-responsive-nav-link :href="route('student.record.index')" :active="request()->routeIs('student.record.*')">
                     {{ __('My Record') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('appointments.index')" :active="request()->routeIs('appointments.*')">
+                    {{ __('Appointments') }}
+                </x-responsive-nav-link>
             @endif
             @if ($isStaff)
                 <x-responsive-nav-link :href="route('staff.records.index')" :active="request()->routeIs('staff.records.*')">
@@ -100,6 +109,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('staff.tracker')" :active="request()->routeIs('staff.tracker')">
                     {{ __('Tracker') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('appointments.index')" :active="request()->routeIs('appointments.*')">
+                    {{ __('Appointments') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('staff.notifications.index')" :active="request()->routeIs('staff.notifications.*')">
                     {{ __('Notifications') }} @if ($unreadCount) ({{ $unreadCount }}) @endif
