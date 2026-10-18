@@ -242,7 +242,7 @@ Keep all 4 terminals running while you test.
 
 1. Keep the same two browsers open: the Student in Browser 1 and the Counselor in Browser 2.
 2. In Browser 2, as the Counselor, **approve** the Student's appointment.
-3. In Browser 1, the Student's appointments table should **update automatically within 5 seconds**, with no manual refresh.
+3. In Browser 1, the Student's appointments table should **update instantly** (with a brief highlight effect on the status badge), with no manual refresh.
 
 ### 3. Cloud Uploads (Backblaze B2)
 
