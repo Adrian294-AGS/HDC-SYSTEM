@@ -63,7 +63,7 @@ class ExportController extends Controller
                 ->chunk(500, function ($logs) use ($out): void {
                     foreach ($logs as $log) {
                         fputcsv($out, [
-                            $log->created_at,
+                            $log->created_at?->toDateTimeString(),
                             $log->user?->name,
                             $log->action,
                             $log->description,

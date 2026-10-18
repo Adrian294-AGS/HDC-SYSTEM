@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AppointmentStatusChanged;
 use App\Models\AccessLog;
 use App\Models\Appointment;
 use App\Models\User;
@@ -179,7 +180,13 @@ class AppointmentController extends Controller
             'status' => 'pending',
         ]);
 
-        $staffMember->notify(new AppointmentRequested($appointment));
+        $staffsToNotify = User::query()
+            ->staffResponsibleFor($student->program?->college_id)
+            ->get();
+
+        foreach ($staffsToNotify as $staff) {
+            $staff->notify(new AppointmentRequested($appointment));
+        }
 
         return redirect()->route('appointments.index')->with('status', 'Appointment requested successfully.');
     }
@@ -203,6 +210,7 @@ class AppointmentController extends Controller
 
         $appointment->update(['status' => $validated['status']]);
 
+        event(new AppointmentStatusChanged($appointment));
         $appointment->student->notify(new AppointmentStatusUpdated($appointment));
 
         AccessLog::logAction($user->id, AccessLog::ACTION_APPOINTMENT, "Appointment #{$appointment->id} marked {$validated['status']}", $request->ip());

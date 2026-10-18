@@ -37,8 +37,8 @@
 
                     <dl class="grid flex-1 gap-x-6 gap-y-3 text-sm sm:grid-cols-2">
                         <div>
-                            <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ __('Student no.') }}</dt>
-                            <dd class="text-gray-900 dark:text-gray-100">{{ $student->student_number }}</dd>
+                            <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ __('Full Name') }}</dt>
+                            <dd class="text-gray-900 dark:text-gray-100">{{ $student->name }}</dd>
                         </div>
                         <div>
                             <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ __('Program / College') }}</dt>

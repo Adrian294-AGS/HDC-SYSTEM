@@ -108,6 +108,20 @@ if (realtimeUserId && realtimeKey) {
 
         document.querySelector('[data-mark-all-read]')?.classList.remove('hidden');
 
+        // Real-time table update for appointment status changes
+        const appointmentRow = document.querySelector(`tr[data-appointment-id="${notification.appointment_id}"]`);
+        if (appointmentRow && notification.status) {
+            const statusBadge = appointmentRow.querySelector('td span.inline-flex.rounded-full');
+            if (statusBadge) {
+                statusBadge.textContent = notification.status.toLowerCase();
+                // Brief highlight to draw attention to the change
+                statusBadge.classList.add('bg-indigo-100', 'text-indigo-700', 'dark:bg-indigo-900', 'dark:text-indigo-200');
+                setTimeout(() => {
+                    statusBadge.classList.remove('bg-indigo-100', 'text-indigo-700', 'dark:bg-indigo-900', 'dark:text-indigo-200');
+                }, 1500);
+            }
+        }
+
         const toast = document.querySelector('[data-notification-toast]');
 
         if (toast) {
@@ -118,6 +132,34 @@ if (realtimeUserId && realtimeKey) {
     });
 } else if (realtimeUserId && !realtimeKey) {
     console.error('Realtime notifications are not configured. Set the VITE_REVERB_APP_KEY environment variable.');
+}
+
+// Global real-time listener for appointment status changes (works for all viewers)
+if (realtimeKey) {
+    window.Pusher = Pusher;
+    const echo = new Echo({
+        broadcaster: 'reverb',
+        key: realtimeKey,
+        wsHost: import.meta.env.VITE_REVERB_HOST || window.location.hostname,
+        wsPort: Number(import.meta.env.VITE_REVERB_PORT || 80),
+        wssPort: Number(import.meta.env.VITE_REVERB_PORT || 443),
+        forceTLS: (import.meta.env.VITE_REVERB_SCHEME || 'https') === 'https',
+        enabledTransports: ['ws', 'wss'],
+    });
+
+    echo.channel('appointments').listen('AppointmentStatusChanged', (e) => {
+        const appointmentRow = document.querySelector(`tr[data-appointment-id="${e.appointment_id}"]`);
+        if (appointmentRow) {
+            const statusBadge = appointmentRow.querySelector('td span.inline-flex.rounded-full');
+            if (statusBadge) {
+                statusBadge.textContent = e.status.toLowerCase();
+                statusBadge.classList.add('bg-indigo-100', 'text-indigo-700', 'dark:bg-indigo-900', 'dark:text-indigo-200');
+                setTimeout(() => {
+                    statusBadge.classList.remove('bg-indigo-100', 'text-indigo-700', 'dark:bg-indigo-900', 'dark:text-indigo-200');
+                }, 1500);
+            }
+        }
+    });
 }
 
 // Global Real-time Polling Component

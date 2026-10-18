@@ -24,7 +24,7 @@ class RegistrationTest extends TestCase
             'student_number' => '26-00001',
             'program_id' => Program::factory()->create()->id,
             'year_level' => 1,
-            'email' => 'juan@example.com',
+            'username' => 'juan-student',
             'password' => 'Password123',
             'password_confirmation' => 'Password123',
         ], $overrides);
@@ -48,7 +48,7 @@ class RegistrationTest extends TestCase
         $this->assertAuthenticated();
         $response->assertRedirect(route('student.dashboard', absolute: false));
 
-        $user = User::where('email', 'juan@example.com')->firstOrFail();
+        $user = User::where('username', 'juan-student')->firstOrFail();
         $this->assertSame(Role::Student, $user->role);
         $this->assertSame('Juan Santos Dela Cruz', $user->name);
         $this->assertSame('26-00001', $user->student_number);
@@ -59,7 +59,7 @@ class RegistrationTest extends TestCase
     {
         $this->post('/register', $this->validPayload(['role' => 'director']));
 
-        $this->assertSame(Role::Student, User::where('email', 'juan@example.com')->firstOrFail()->role);
+        $this->assertSame(Role::Student, User::where('username', 'juan-student')->firstOrFail()->role);
     }
 
     public function test_student_number_must_be_unique(): void

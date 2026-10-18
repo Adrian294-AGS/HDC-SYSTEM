@@ -88,7 +88,7 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                                     @foreach ($appointments as $appointment)
-                                        <tr>
+                                        <tr data-appointment-id="{{ $appointment->id }}">
                                             <th scope="row" class="px-4 py-3 text-left font-medium text-gray-900 dark:text-gray-100">
                                                 {{ $appointment->staff->name }}
                                             </th>
@@ -144,7 +144,7 @@
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                                         @foreach ($appointments as $appointment)
-                                            <tr>
+                                            <tr data-appointment-id="{{ $appointment->id }}">
                                                 <th scope="row" class="px-4 py-3 text-left font-medium text-gray-900 dark:text-gray-100">
                                                     {{ $appointment->student->name }}
                                                     @if ($appointment->student->program)
