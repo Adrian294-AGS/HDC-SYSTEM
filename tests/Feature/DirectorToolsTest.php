@@ -88,18 +88,18 @@ class DirectorToolsTest extends TestCase
         $this->actingAs($this->director)->post(route('director.counselors.store'), [
             'last_name' => 'Reyes',
             'first_name' => 'Rosa',
-            'email' => 'rosa@uls.test',
+            'username' => 'rosa-reyes',
             'password' => 'Temp-pass-123',
             'colleges' => [$this->cit->id],
         ])->assertSessionHasNoErrors()->assertRedirect(route('director.counselors.index'));
 
-        $counselor = User::where('email', 'rosa@uls.test')->firstOrFail();
+        $counselor = User::where('username', 'rosa-reyes')->firstOrFail();
         $this->assertSame(Role::Counselor, $counselor->role);
         $this->assertTrue($counselor->must_change_password);
         $this->assertSame([$this->cit->id], $counselor->colleges->pluck('id')->all());
 
         auth()->logout();
-        $this->post('/login', ['email' => 'rosa@uls.test', 'password' => 'Temp-pass-123'])->assertRedirect();
+        $this->post('/login', ['username' => 'rosa-reyes', 'password' => 'Temp-pass-123'])->assertRedirect();
         $this->assertAuthenticatedAs($counselor);
         $this->assertNotNull($counselor->fresh()->last_login_at);
 
@@ -120,7 +120,7 @@ class DirectorToolsTest extends TestCase
         $this->actingAs($this->director)->post(route('director.counselors.store'), [
             'last_name' => 'Sneaky',
             'first_name' => 'Sam',
-            'email' => 'sam@uls.test',
+            'username' => 'sam-sneaky',
             'password' => 'Temp-pass-123',
             'colleges' => [$this->cit->id],
             'role' => 'director',
@@ -128,7 +128,7 @@ class DirectorToolsTest extends TestCase
             'must_change_password' => '0',
         ])->assertSessionHasNoErrors();
 
-        $user = User::where('email', 'sam@uls.test')->firstOrFail();
+        $user = User::where('username', 'sam-sneaky')->firstOrFail();
         $this->assertSame(Role::Counselor, $user->role);
         $this->assertTrue($user->is_active);
         $this->assertTrue($user->must_change_password);
@@ -137,7 +137,7 @@ class DirectorToolsTest extends TestCase
         $this->actingAs($this->director)->put(route('director.counselors.update', $counselor), [
             'last_name' => 'Same',
             'first_name' => 'Person',
-            'email' => $counselor->email,
+            'username' => $counselor->username,
             'colleges' => [$this->cit->id],
             'role' => 'director',
         ])->assertSessionHasNoErrors();
@@ -149,12 +149,12 @@ class DirectorToolsTest extends TestCase
         $this->actingAs($this->director)->post(route('director.counselors.store'), [
             'last_name' => 'No',
             'first_name' => 'College',
-            'email' => 'nocollege@uls.test',
+            'username' => 'no-college',
             'password' => 'Temp-pass-123',
             'colleges' => [],
         ])->assertSessionHasErrors('colleges');
 
-        $this->assertDatabaseMissing('users', ['email' => 'nocollege@uls.test']);
+        $this->assertDatabaseMissing('users', ['username' => 'no-college']);
     }
 
     public function test_director_can_edit_assignments_and_reset_the_password(): void
@@ -164,13 +164,13 @@ class DirectorToolsTest extends TestCase
         $this->actingAs($this->director)->put(route('director.counselors.update', $counselor), [
             'last_name' => 'Renamed',
             'first_name' => 'Counselor',
-            'email' => 'renamed@uls.test',
+            'username' => 'counselor-renamed',
             'password' => 'New-temp-789',
             'colleges' => [$this->con->id],
         ])->assertSessionHasNoErrors();
 
         $counselor->refresh();
-        $this->assertSame('renamed@uls.test', $counselor->email);
+        $this->assertSame('counselor-renamed', $counselor->username);
         $this->assertSame('Counselor Renamed', $counselor->name);
         $this->assertSame([$this->con->id], $counselor->colleges->pluck('id')->all());
         $this->assertTrue(Hash::check('New-temp-789', $counselor->password));
@@ -211,14 +211,14 @@ class DirectorToolsTest extends TestCase
         auth()->logout();
 
         $this->from('/login')
-            ->post('/login', ['email' => $counselor->email, 'password' => 'password'])
+            ->post('/login', ['username' => $counselor->username, 'password' => 'password'])
             ->assertRedirect('/login')
-            ->assertSessionHasErrors(['email' => 'This account has been deactivated. Please contact the HDC Director.']);
+            ->assertSessionHasErrors(['username' => 'This account has been deactivated. Please contact the HDC Director.']);
         $this->assertGuest();
 
         $this->followingRedirects()
             ->from('/login')
-            ->post('/login', ['email' => $counselor->email, 'password' => 'password'])
+            ->post('/login', ['username' => $counselor->username, 'password' => 'password'])
             ->assertSee('This account has been deactivated');
     }
 
@@ -239,7 +239,7 @@ class DirectorToolsTest extends TestCase
         $this->actingAs($this->director)->patch(route('director.counselors.reactivate', $counselor))->assertRedirect();
         auth()->logout();
 
-        $this->post('/login', ['email' => $counselor->email, 'password' => 'password']);
+        $this->post('/login', ['username' => $counselor->username, 'password' => 'password']);
         $this->assertAuthenticatedAs($counselor->fresh());
     }
 
@@ -287,7 +287,7 @@ class DirectorToolsTest extends TestCase
         $student = User::factory()->student()->create();
         $this->assertNull($student->last_login_at);
 
-        $this->post('/login', ['email' => $student->email, 'password' => 'password']);
+        $this->post('/login', ['username' => $student->username, 'password' => 'password']);
 
         $this->assertNotNull($student->fresh()->last_login_at);
     }

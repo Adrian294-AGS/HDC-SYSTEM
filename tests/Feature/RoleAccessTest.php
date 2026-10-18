@@ -35,7 +35,7 @@ class RoleAccessTest extends TestCase
     {
         $user = $this->userWithRole($role);
 
-        $response = $this->post('/login', ['email' => $user->email, 'password' => 'password']);
+        $response = $this->post('/login', ['username' => $user->username, 'password' => 'password']);
 
         $response->assertRedirect($dashboard);
     }

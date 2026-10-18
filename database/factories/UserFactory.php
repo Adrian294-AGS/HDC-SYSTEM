@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'last_name' => fake()->lastName(),
             'first_name' => fake()->firstName(),
             'middle_name' => fake()->lastName(),
-            'username' => fake()->unique()->userName(),
+            'username' => fake()->unique()->regexify('[A-Za-z0-9]{5,15}'),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),

@@ -10,6 +10,7 @@ use App\Models\College;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 /**
@@ -47,6 +48,7 @@ class CounselorController extends Controller
                 'last_name' => $validated['last_name'],
                 'first_name' => $validated['first_name'],
                 'middle_name' => $validated['middle_name'] ?? null,
+                'username' => Str::before($validated['email'], '@'),
                 'email' => $validated['email'],
                 'password' => $validated['password'],
             ]);
